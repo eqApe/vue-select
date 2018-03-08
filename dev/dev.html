@@ -24,6 +24,10 @@
             width: 25em;
             margin: 1em;
         }
+
+        .overflow-container {
+            overflow: hidden;
+        }
     </style>
 </head>
 
@@ -77,6 +81,10 @@
                 <em>{{ `${option.author.firstName} ${option.author.lastName}` }}</em>
             </template>
         </v-select>
+        
+        <div class="overflow-container">
+            <v-select placeholder="default" :options="options" :dropdown-container="dropdownContainer"></v-select>
+        </div>
     </div>
 </body>
 

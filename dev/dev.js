@@ -18,7 +18,8 @@ new Vue({
     options: countries,
     ajaxRes: [],
     people: [],
-    fuseSearchOptions
+    fuseSearchOptions,
+    dropdownContainer: document.body,
   },
   methods: {
     search(search, loading) {

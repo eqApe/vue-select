@@ -1,11 +1,18 @@
 <style>
-  .v-select {
+  .v-select, .v-select-container-element {
     position: relative;
     font-family: sans-serif;
   }
 
+  .v-select-container-element {
+    position: absolute;
+    transform: translateY(-1px);
+  }
+
   .v-select,
-  .v-select * {
+  .v-select *,
+  .v-select-container-element,
+  .v-select-container-element * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -113,7 +120,8 @@
     border-bottom-right-radius: 0;
   }
   /* Dropdown Menu */
-  .v-select .dropdown-menu {
+  .v-select .dropdown-menu,
+  .v-select-container-element .dropdown-menu {
     display:block;
     position: absolute;
     top: 100%;
@@ -132,11 +140,13 @@
     list-style: none;
     background: #fff;
   }
-  .v-select .no-options {
+  .v-select .no-options,
+  .v-select-container-element .no-options {
     text-align: center;
   }
   /* Selected Tags */
-  .v-select .selected-tag {
+  .v-select .selected-tag,
+  .v-select-container-element .selected-tag {
     color: #333;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
@@ -147,19 +157,24 @@
     float: left;
     line-height: 24px;
   }
-  .v-select.single .selected-tag {
+  .v-select.single .selected-tag,
+  .v-select-container-element.single .selected-tag {
     background-color: transparent;
     border-color: transparent;
   }
-  .v-select.single.open .selected-tag {
+  .v-select.single.open .selected-tag,
+  .v-select-container-element.single.open .selected-tag {
     position: absolute;
     opacity: .5;
   }
   .v-select.single.open.searching .selected-tag,
-  .v-select.single.loading .selected-tag {
+  .v-select.single.loading .selected-tag,
+  .v-select-container-element.single.open.searching .selected-tag,
+  .v-select-container-element.single.loading .selected-tag {
     display: none;
   }
-  .v-select .selected-tag .close {
+  .v-select .selected-tag .close,
+  .v-select-container-element .selected-tag .close {
     float: none;
     margin-right: 0;
     font-size: 20px;
@@ -175,21 +190,29 @@
     filter: alpha(opacity=20);
     opacity: .2;
   }
-  .v-select.single.searching:not(.open):not(.loading) input[type="search"] {
+  .v-select.single.searching:not(.open):not(.loading) input[type="search"],
+  .v-select-container-element.single.searching:not(.open):not(.loading) input[type="search"] {
     opacity: .2;
   }
   /* Search Input */
   .v-select input[type="search"]::-webkit-search-decoration,
   .v-select input[type="search"]::-webkit-search-cancel-button,
   .v-select input[type="search"]::-webkit-search-results-button,
-  .v-select input[type="search"]::-webkit-search-results-decoration {
+  .v-select input[type="search"]::-webkit-search-results-decoration,
+  .v-select-container-element input[type="search"]::-webkit-search-decoration,
+  .v-select-container-element input[type="search"]::-webkit-search-cancel-button,
+  .v-select-container-element input[type="search"]::-webkit-search-results-button,
+  .v-select-container-element input[type="search"]::-webkit-search-results-decoration {
     display: none;
   }
-  .v-select input[type="search"]::-ms-clear {
+  .v-select input[type="search"]::-ms-clear,
+  .v-select-container-element input[type="search"]::-ms-clear {
     display: none;
   }
   .v-select input[type="search"],
-  .v-select input[type="search"]:focus {
+  .v-select input[type="search"]:focus,
+  .v-select-container-element input[type="search"],
+  .v-select-container-element input[type="search"]:focus {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -207,31 +230,38 @@
     position: relative;
     box-shadow: none;
   }
-  .v-select.unsearchable input[type="search"] {
+  .v-select.unsearchable input[type="search"],
+  .v-select-container-element.unsearchable input[type="search"] {
     opacity: 0;
   }
-  .v-select.unsearchable input[type="search"]:hover {
+  .v-select.unsearchable input[type="search"]:hover,
+  .v-select-container-element.unsearchable input[type="search"]:hover {
     cursor: pointer;
   }
     /* List Items */
-  .v-select li {
+  .v-select li,
+  .v-select-container-element li {
     line-height: 1.42857143; /* Normalize line height */
   }
-  .v-select li > a {
+  .v-select li > a,
+  .v-select-container-element li > a {
     display: block;
     padding: 3px 20px;
     clear: both;
     color: #333; /* Overrides most CSS frameworks */
     white-space: nowrap;
   }
-  .v-select li:hover {
+  .v-select li:hover,
+  .v-select-container-element li:hover {
     cursor: pointer;
   }
-  .v-select .dropdown-menu .active > a {
+  .v-select .dropdown-menu .active > a,
+  .v-select-container-element .dropdown-menu .active > a {
     color: #333;
     background: rgba(50, 50, 50, .1);
   }
-  .v-select .dropdown-menu > .highlight > a {
+  .v-select .dropdown-menu > .highlight > a,
+  .v-select-container-element .dropdown-menu > .highlight > a {
     /*
      * required to override bootstrap 3's
      * .dropdown-menu > li > a:hover {} styles
@@ -239,11 +269,13 @@
     background: #5897fb;
     color: #fff;
   }
-  .v-select .highlight:not(:last-child) {
+  .v-select .highlight:not(:last-child),
+  .v-select-container-element .highlight:not(:last-child) {
     margin-bottom: 0; /* Fixes Bulma Margin */
   }
   /* Loading Spinner */
-  .v-select .spinner {
+  .v-select .spinner,
+  .v-select-container-element .spinner {
     opacity: 0;
     position: absolute;
     top: 5px;
@@ -260,7 +292,9 @@
     transition: opacity .1s;
   }
   .v-select .spinner,
-  .v-select .spinner:after {
+  .v-select .spinner:after,
+  .v-select-container-element .spinner,
+  .v-select-container-element .spinner:after {
     border-radius: 50%;
     width: 5em;
     height: 5em;
@@ -271,13 +305,19 @@
   .v-select.disabled .dropdown-toggle .clear,
   .v-select.disabled .dropdown-toggle input,
   .v-select.disabled .selected-tag .close,
-  .v-select.disabled .open-indicator {
+  .v-select.disabled .open-indicator,
+  .v-select-container-element.disabled .dropdown-toggle,
+  .v-select-container-element.disabled .dropdown-toggle .clear,
+  .v-select-container-element.disabled .dropdown-toggle input,
+  .v-select-container-element.disabled .selected-tag .close,
+  .v-select-container-element.disabled .open-indicator {
     cursor: not-allowed;
     background-color: rgb(248, 248, 248);
   }
 
   /* Loading Spinner States */
-  .v-select.loading .spinner {
+  .v-select.loading .spinner,
+  .v-select-container-element.loading .spinner {
     opacity: 1;
   }
   /* KeyFrames */
@@ -313,7 +353,7 @@
     <div ref="toggle" @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix']">
 
       <slot v-for="option in valueAsArray" name="selected-option-container"
-            :option="(typeof option === 'object')?option:{[label]: option}" :deselect="deselect" :multiple="multiple" :disabled="disabled">
+        :option="(typeof option === 'object')?option:{[label]: option}" :deselect="deselect" :multiple="multiple" :disabled="disabled">
         <span class="selected-tag" v-bind:key="option.index">
           <slot name="selected-option" v-bind="(typeof option === 'object')?option:{[label]: option}">
             {{ getOptionLabel(option) }}
@@ -322,7 +362,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </span>
-    </slot>
+      </slot>
 
       <input
               ref="search"
@@ -662,6 +702,16 @@
       },
 
       /**
+       * Where to draw the dropdown
+       * @type {Object}
+       * @default {null}
+       */
+      dropdownContainer: {
+        type: null,
+        default: false,
+      },
+
+      /**
        * Sets the id of the input element.
        * @type {String}
        * @default {null}
@@ -687,7 +737,8 @@
         search: '',
         open: false,
         mutableValue: null,
-        mutableOptions: []
+        mutableOptions: [],
+        dropdownContainerElement: null,
       }
     },
 
@@ -745,6 +796,34 @@
        */
       multiple(val) {
 				this.mutableValue = val ? [] : null
+      },
+
+      /**
+			 * Move dropdown to container element
+       * if it's provided
+       * @param  {Boolean} val
+       * @return {void}
+       */
+      dropdownOpen(val) {
+        if (!this.dropdownContainer) {
+          return;
+        }
+
+        if (val) {
+          this.dropdownContainerElement = document.createElement('DIV')
+          this.dropdownContainerElement.classList.add('v-select-container-element')
+          this.$nextTick(() => {
+            document.addEventListener('scroll', this.onDocumentScroll, true)
+            this.dropdownContainerElement.append(this.$refs.dropdownMenu)
+            this.setDropdownContainerElementPosition()
+            this.dropdownContainer.append(this.dropdownContainerElement)
+          })
+        } else {
+          this.$nextTick(() => {
+            document.removeEventListener('scroll', this.onDocumentScroll)
+            this.dropdownContainer.removeChild(this.dropdownContainerElement)
+          })
+        }
       }
     },
 
@@ -950,7 +1029,44 @@
         if (this.pushTags) {
           this.mutableOptions.push(option)
         }
-      }
+      },
+
+      /**
+       * Set position for the container element
+       *
+       * @return {void}
+       */
+      setDropdownContainerElementPosition() {
+        const toggleRect = this.$refs.toggle.getBoundingClientRect()
+        const offsetParent = this.dropdownContainerElement.offsetParent || document.body
+        const computedStyle = getComputedStyle(offsetParent)
+        let offsetParentRect = offsetParent.getBoundingClientRect()
+        if (computedStyle.getPropertyValue('position') === 'static') {
+          offsetParentRect = new DOMRect(
+            offsetParentRect.x - parseInt(computedStyle.getPropertyValue('margin-left')),
+            offsetParentRect.y - parseInt(computedStyle.getPropertyValue('margin-top')),
+            0,
+            0
+          )
+        }
+
+        this.dropdownContainerElement.style.top = `${toggleRect.top - offsetParentRect.top + toggleRect.height}px`
+        this.dropdownContainerElement.style.left = `${toggleRect.left - offsetParentRect.left}px`
+        this.dropdownContainerElement.style.width = `${toggleRect.right - toggleRect.left}px`
+      },
+
+      /**
+       * Handle scrolls on the page
+       *
+       * @return {void}
+       */
+      onDocumentScroll(e) {
+        if (e.target === this.$refs.dropdownMenu || !this.dropdownOpen) {
+          return
+        }
+
+        this.setDropdownContainerElementPosition()
+      },
     },
 
     computed: {
